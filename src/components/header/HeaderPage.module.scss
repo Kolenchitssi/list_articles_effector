@@ -1,0 +1,12 @@
+@import '../../style/constansts.scss';
+.header {
+  font-size: 3rem;
+  color: $info;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.button {
+  color: $textPrimary;
+  background-color: $secondary;
+}

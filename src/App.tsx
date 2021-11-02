@@ -1,8 +1,29 @@
-import React from 'react';
+import { useStore } from 'effector-react';
+import React, { FC } from 'react';
 import './App.scss';
+import HeaderPage from './components/header/HeaderPage';
+import { $store, $users, plus, minus } from './store/store';
 
-function App() {
-  return <div className='App'>hi!</div>;
-}
+const App: FC = () => {
+  console.log($store, $users);
+  const { defaultState } = $store;
+  // $store.defaultState = 8;
+  const count = useStore($store);
+
+  return (
+    <>
+      <HeaderPage />
+      <div className='App'>
+        <button type='button' onClick={() => plus(count + 1)}>
+          +
+        </button>
+        <h2>score: {count} </h2>{' '}
+        <button type='button' onClick={() => minus(count - 2)}>
+          -
+        </button>
+      </div>
+    </>
+  );
+};
 
 export default App;
