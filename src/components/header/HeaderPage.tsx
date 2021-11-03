@@ -9,11 +9,24 @@ const HeaderPage: FC = () => {
     <Header className={css.header}>
       Articles List
       {isAuthorized ? (
-        <Button type='ghost' size='large' className={css.button}>
+        <div>
+          <Button type='ghost' size='large' className={css.buttonLogout}>
+            {' userName:'}
+            Выйти
+          </Button>
+        </div>
+      ) : (
+        <div>
           {' '}
-          LogOut
-        </Button>
-      ) : null}
+          Гость:{' '}
+          <Button type='ghost' size='large' className={css.buttonLogIn}>
+            Войти
+          </Button>
+          <Button type='ghost' size='large' className={css.buttonLogIn}>
+            регистрация
+          </Button>
+        </div>
+      )}
     </Header>
   );
 };
