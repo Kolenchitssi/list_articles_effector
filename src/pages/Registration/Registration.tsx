@@ -8,33 +8,46 @@ import { useHistory } from 'react-router-dom';
 import { Alert, Form, Input, Button } from 'antd';
 import css from './Registration.module.scss';
 import { IUser } from '../../models/IUser';
+import { setAuth } from '../../store/isAutorized';
+import { addCurrentUserToStore } from '../../utils/addCurentUserToStore';
+
+interface IUserRegistration {
+  email: string;
+  password: string;
+  id: string;
+  name: string;
+  avatar: string;
+}
 
 const Registration: FC = () => {
   const history = useHistory();
   const [errorMsg, setErrorMsg] = useState('');
-  const [userData, setUserData] = useState<IUser>({
+  const [userData, setUserData] = useState<IUserRegistration>({
     email: '',
     password: '',
     id: '',
     name: '',
     avatar: '',
-  } as IUser);
+  } as IUserRegistration);
 
   const auth = getAuth();
   const handleRegistration = async (e: SyntheticEvent<HTMLFormElement>) => {
-    // e.preventDefault();
-
-    const user = await createUserWithEmailAndPassword(
-      auth,
-      userData.email,
-      userData.password
-    );
     try {
+      // создаем пользвателя в БД firebase
+      const user = await createUserWithEmailAndPassword(
+        auth,
+        userData.email,
+        userData.password
+      );
+      // добавляем значения в поля  БД firebase
       await updateProfile(user.user, {
         displayName: userData.name,
-        photoURL: userData.avatar,
+        photoURL: userData.avatar || '',
       });
       console.log(user);
+      // add to sore isAutorization true
+      setAuth(true);
+      addCurrentUserToStore(user.user);
     } catch (error: any) {
       const errorMessage = error.message;
       console.log(errorMessage);

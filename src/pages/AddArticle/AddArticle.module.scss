@@ -1,0 +1,25 @@
+@import '../../style/constansts.scss';
+
+.form {
+  margin-top: 50px;
+}
+
+.buttonAdd {
+  background-color: $process;
+  border-radius: 5px;
+  padding-left: 40px;
+  padding-right: 40px;
+  color: $textSecondary;
+  font-weight: 600;
+  margin: 0 10px 0 0;
+}
+
+.buttonCancel {
+  background-color: $danger;
+  border-radius: 5px;
+  padding-left: 40px;
+  padding-right: 40px;
+  color: $textSecondary;
+  font-weight: 600;
+  margin: 0 10px;
+}

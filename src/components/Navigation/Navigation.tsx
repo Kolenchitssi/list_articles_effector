@@ -17,13 +17,13 @@ const Navigation = () => {
           </NavLink>
         </li>
         <li>
-          <NavLink to='/'>
+          <NavLink to={RoutePath.PROFILE}>
             <TeamOutlined />
             <span className={css.link}>Profile</span>
           </NavLink>
         </li>
         <li>
-          <NavLink to='/'>
+          <NavLink to={RoutePath.ADD_ARTICLE}>
             <FilePptOutlined />
             <span className={css.link}>Add New Article</span>
           </NavLink>

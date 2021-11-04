@@ -1,7 +1,7 @@
 export interface IArticle {
   author: string;
   authorId: string;
-  date: Date;
+  date: string;
   title: string;
   content: string;
   img?: string[];

@@ -9,5 +9,8 @@ export const getCurrentUser = createEvent<IUser>();
 // создаем store  и подписываемся на созданное событие
 export const $currentUser = createStore<IUser>({} as IUser).on(
   getCurrentUser,
-  (store, payload) => payload
+  (store, payload) => {
+    console.log('payload', payload);
+    return payload;
+  }
 );

@@ -2,10 +2,12 @@ import React, { FC, SyntheticEvent, useState } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { getAuth, signInWithEmailAndPassword } from '@firebase/auth';
 import { Alert, Button, Form, Input } from 'antd';
-import { $isAuthorized, isAuth } from '../../store/isAutorized';
-import { $currentUser } from '../../store/currentUser';
+import { $isAuthorized, setAuth } from '../../store/isAutorized';
+import { $currentUser, getCurrentUser } from '../../store/currentUser';
+import { IUser } from '../../models/IUser';
 
 import css from './Auth.module.scss';
+import { addCurrentUserToStore } from '../../utils/addCurentUserToStore';
 
 export interface IUserData {
   email: string;
@@ -28,8 +30,13 @@ const Auth: FC = () => {
         userData.email,
         userData.password
       );
-      console.log(user);
-      // isAutorization=true //add to sore
+      console.log(user.user, authUser);
+      // add to store isAutorization true
+      setAuth(true);
+      const currentUser = user.user;
+      if (currentUser) {
+        addCurrentUserToStore(currentUser);
+      }
     } catch (error: any) {
       setErrorMsg(error.message);
     }
@@ -53,7 +60,7 @@ const Auth: FC = () => {
         <Alert
           type='error'
           style={{ marginBottom: 20, textAlign: 'center' }}
-          message='Error registration'
+          message='Ошибка входа!'
           description={errorMsg}
         />
       )}
@@ -100,9 +107,9 @@ const Auth: FC = () => {
             type='ghost'
             size='large'
             htmlType='submit'
-            className={css.buttonRegistration}
+            className={css.buttonAutn}
           >
-            Registration
+            Login
           </Button>
         </Form.Item>
       </Form>

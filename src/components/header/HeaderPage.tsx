@@ -1,3 +1,5 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { getAuth, signOut } from '@firebase/auth';
 import {
   ContainerTwoTone,
   CopyFilled,
@@ -9,10 +11,12 @@ import { Button } from 'antd';
 import { Header } from 'antd/lib/layout/layout';
 import React, { FC } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useStore } from 'effector-react';
 import { RoutePath } from '../../router/RoutePath';
 import Navigation from '../Navigation/Navigation';
 import css from './HeaderPage.module.scss';
-import { $isAuthorized, isAuth } from '../../store/isAutorized';
+import { $isAuthorized, setAuth } from '../../store/isAutorized';
+import { $currentUser } from '../../store/currentUser';
 
 interface IProps {
   isAuthorized: boolean;
@@ -21,6 +25,8 @@ interface IProps {
 const HeaderPage: FC<IProps> = props => {
   const { isAuthorized } = props;
   const history = useHistory();
+  const auth = getAuth();
+  const user = useStore($currentUser);
   return (
     <Header className={css.header}>
       {isAuthorized ? (
@@ -35,7 +41,10 @@ const HeaderPage: FC<IProps> = props => {
                 type='ghost'
                 size='large'
                 className={css.buttonLogout}
-                onClick={() => isAuth(false)}
+                onClick={() => {
+                  signOut(auth);
+                  setAuth(false);
+                }}
               >
                 <LogoutOutlined />
                 Logout

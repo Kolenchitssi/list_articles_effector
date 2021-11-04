@@ -1,10 +1,12 @@
 import { IRoute } from '../models/IRoute';
+import { RoutePath } from './RoutePath';
+
 import Auth from '../pages/Auth/Auth';
-import Error from '../pages/Error/Error';
+import Registration from '../pages/Registration/Registration';
 import Home from '../pages/Home/Home';
 import Profile from '../pages/Profile/Profile';
-import Registration from '../pages/Registration/Registration';
-import { RoutePath } from './RoutePath';
+import AddArticle from '../pages/AddArticle/AddArticle';
+import Error from '../pages/Error/Error';
 
 export const publicRoutes: IRoute[] = [
   { path: RoutePath.AUTH, exact: true, component: Auth },
@@ -17,4 +19,5 @@ export const privateRoutes: IRoute[] = [
   { path: RoutePath.PROFILE, exact: true, component: Profile },
   { path: RoutePath.PROFILE, exact: true, component: Registration },
   { path: RoutePath.ERROR, exact: true, component: Error },
+  { path: RoutePath.ADD_ARTICLE, exact: true, component: AddArticle },
 ];

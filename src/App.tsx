@@ -1,18 +1,31 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { getAuth, onAuthStateChanged } from '@firebase/auth';
 import { Layout } from 'antd';
 import { useStore } from 'effector-react';
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import './App.scss';
 import AppRouter from './components/AppRouter/AppRouter';
 import FooterPage from './components/Footer/FooterPage';
 import HeaderPage from './components/header/HeaderPage';
 // import { $store, $users, plus, minus } from './store/store';
-import { $isAuthorized } from './store/isAutorized';
+import { $isAuthorized, setAuth } from './store/isAutorized';
 
 const App: FC = () => {
   // const { defaultState } = $store;
   // $store.defaultState = 8; //так наверно нельзя делать
-  const isAuthorized = useStore($isAuthorized);
   // const count = useStore($store);
+
+  useEffect(() => {
+    const auth = getAuth();
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        setAuth(true);
+      } else {
+        setAuth(false);
+      }
+    });
+  }, []);
+  const isAuthorized = useStore($isAuthorized);
 
   return (
     <>
