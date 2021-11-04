@@ -12,6 +12,7 @@ import { useHistory } from 'react-router-dom';
 import { RoutePath } from '../../router/RoutePath';
 import Navigation from '../Navigation/Navigation';
 import css from './HeaderPage.module.scss';
+import { $isAuthorized, isAuth } from '../../store/isAutorized';
 
 interface IProps {
   isAuthorized: boolean;
@@ -30,7 +31,12 @@ const HeaderPage: FC<IProps> = props => {
             </h1>
             <div>
               <span className={css.text}>{' userName:'} </span>
-              <Button type='ghost' size='large' className={css.buttonLogout}>
+              <Button
+                type='ghost'
+                size='large'
+                className={css.buttonLogout}
+                onClick={() => isAuth(false)}
+              >
                 <LogoutOutlined />
                 Logout
               </Button>
@@ -44,10 +50,19 @@ const HeaderPage: FC<IProps> = props => {
         <>
           {' '}
           <div className={css.headerWrapper}>
-            <h1>Articles List </h1>
+            <h1>
+              <CopyFilled /> <span className={css.h1Text}> Articles List</span>{' '}
+            </h1>
             <div>
               <span className={css.text}> Гость: </span>
-              <Button type='ghost' size='large' className={css.buttonLogin}>
+              <Button
+                type='ghost'
+                size='large'
+                className={css.buttonLogin}
+                onClick={() => {
+                  history.push(RoutePath.AUTH);
+                }}
+              >
                 <LoginOutlined />
                 Login
               </Button>

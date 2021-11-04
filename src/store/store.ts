@@ -5,7 +5,6 @@ import { IUser } from '../models/IUser';
 // IUser — интерфейс, описывающий пользователя (имя, фамилия и т.п.)
 
 export const $users = createStore<IUser[]>([]);
-export const $isAuthorized = createStore<boolean>(false);
 
 // Создаем событие, принимающее параметр IUser
 export const update = createEvent<IUser>();

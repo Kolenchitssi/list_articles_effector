@@ -51,10 +51,16 @@ const Registration: FC = () => {
 
   return (
     <>
+      <Alert
+        type='warning'
+        style={{ textAlign: 'center' }}
+        message='Заполните поля для регистрации'
+        description='Обязательные поля отмечены *'
+      />
       {errorMsg && (
         <Alert
           type='error'
-          style={{ marginBottom: 20 }}
+          style={{ marginBottom: 20, textAlign: 'center' }}
           message='Error registration'
           description={errorMsg}
         />
