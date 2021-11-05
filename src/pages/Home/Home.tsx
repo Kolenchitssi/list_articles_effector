@@ -49,11 +49,14 @@ const Home: FC = () => {
 
   return (
     <>
-      <div> здесь будет фильтр и возможно чтотот еще</div>
+      <div className={css.homeMenu}>
+        {' '}
+        здесь будет фильтр и возможно чтотот еще
+      </div>
       <div className={css.content}>
         {articles.map((article, index) => (
           <ArticleBlank
-            key={article.authorId}
+            key={article.authorId + article.date}
             authorId={article.authorId}
             author={article.author}
             title={article.title}

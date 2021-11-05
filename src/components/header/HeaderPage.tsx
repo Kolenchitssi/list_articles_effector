@@ -27,6 +27,7 @@ const HeaderPage: FC<IProps> = props => {
   const history = useHistory();
   const auth = getAuth();
   const user = useStore($currentUser);
+
   return (
     <Header className={css.header}>
       {isAuthorized ? (
@@ -36,7 +37,10 @@ const HeaderPage: FC<IProps> = props => {
               <CopyFilled /> <span className={css.h1Text}> Articles List</span>{' '}
             </h1>
             <div>
-              <span className={css.text}>{' userName:'} </span>
+              <span className={css.text}>
+                {'user: '}
+                {user.name}{' '}
+              </span>
               <Button
                 type='ghost'
                 size='large'

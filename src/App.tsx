@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { getAuth, onAuthStateChanged } from '@firebase/auth';
+import { getAuth, onAuthStateChanged, User } from '@firebase/auth';
 import { Layout } from 'antd';
 import { useStore } from 'effector-react';
 import React, { FC, useEffect } from 'react';
@@ -9,6 +9,7 @@ import FooterPage from './components/Footer/FooterPage';
 import HeaderPage from './components/header/HeaderPage';
 // import { $store, $users, plus, minus } from './store/store';
 import { $isAuthorized, setAuth } from './store/isAutorized';
+import { addCurrentUserToStore } from './utils/addCurentUserToStore';
 
 const App: FC = () => {
   // const { defaultState } = $store;
@@ -20,6 +21,7 @@ const App: FC = () => {
     onAuthStateChanged(auth, user => {
       if (user) {
         setAuth(true);
+        addCurrentUserToStore(user);
       } else {
         setAuth(false);
       }

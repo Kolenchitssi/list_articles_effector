@@ -12,13 +12,6 @@ export const addCurrentUserToStore = (currentUser: User) => {
     avatar: currentUser?.photoURL || '',
   };
 
-  setCurrentUser(profileUser);
-
-  console.log('profileUser', profileUser);
-  // const store = useStore($currentUser);
-
-  setTimeout(() => {
-    console.log('store', $currentUser.defaultState);
-  }, 1000);
   // добавить текущего юзера в store
+  setCurrentUser(profileUser);
 };

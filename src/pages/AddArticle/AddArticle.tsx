@@ -13,9 +13,21 @@ import { IArticle } from '../../models/IArticle';
 import { RoutePath } from '../../router/RoutePath';
 import { $currentUser } from '../../store/currentUser';
 import css from './AddArticle.module.scss';
+import { writingImageToFirebase } from '../../utils/writingImageToFirebase';
+
+export interface IArticlePicture {
+  authorId: string;
+  author: string;
+  title: string;
+  content: string;
+  date: string;
+  img: FileList | null;
+}
 
 const AddArticle: FC = () => {
-  const [article, setArticle] = useState<IArticle>({} as IArticle);
+  const [article, setArticle] = useState<IArticlePicture>(
+    {} as IArticlePicture
+  );
   const [errorMsg, setErrorMsg] = useState('');
   const user = useStore($currentUser);
   console.log('user', $currentUser);
@@ -25,8 +37,14 @@ const AddArticle: FC = () => {
   // при вводе в отдельные поля вся форма перерисовывается :(
 
   const addPostHandler = async () => {
+    const imagesPath = [];
     if (user) {
       try {
+        if (article.img) {
+          for (let i = 0; i < article.img.length; i++) {
+            imagesPath[i] = writingImageToFirebase(article.img[i]);
+          }
+        }
         const docRef = await addDoc(collection(db, 'posts'), {
           // запись поста в Базу Данных
           author: user.name,
@@ -34,9 +52,14 @@ const AddArticle: FC = () => {
           date: String(new Date()),
           title: article.title,
           content: article.content,
-          img: article?.img || '',
+          img: 'imagesPath',
         });
-        console.log('Document written with ID: ', docRef.id);
+        console.log(
+          'Document written with ID: ',
+          docRef.id,
+          'imagesPath',
+          imagesPath
+        );
         history.push(RoutePath.HOME);
       } catch (e: any) {
         setErrorMsg(e);
@@ -100,10 +123,13 @@ const AddArticle: FC = () => {
           rules={[{ required: false, message: 'Please choose image' }]}
         >
           <Input
+            type='file'
+            accept='.jpg, .jpeg, .png'
             placeholder='Please choose image'
-            value={article?.img}
+            multiple
+            // value={article.img.}
             onChange={e => {
-              setArticle({ ...article, content: e.target.value });
+              setArticle({ ...article, img: e.target.files }); // = FileList: [file1, file2,...  etc]
             }}
           />
         </Form.Item>

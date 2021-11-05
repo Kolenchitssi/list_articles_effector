@@ -29,7 +29,7 @@ const Auth: FC = () => {
         userData.email,
         userData.password
       );
-      console.log(user.user, authUser);
+      // console.log(user.user, authUser);
       // add to store isAutorization true
       setAuth(true);
       const currentUser: User = user.user;
