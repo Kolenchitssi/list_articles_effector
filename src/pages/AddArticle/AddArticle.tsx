@@ -23,27 +23,25 @@ const AddArticle: FC = () => {
   const history = useHistory();
   const db: Firestore = getFirestore();
   // при вводе в отдельные поля вся форма перерисовывается :(
-  console.log('db', db);
 
   const addPostHandler = async () => {
-    if ('user') {
+    if (user) {
       try {
         const docRef = await addDoc(collection(db, 'posts'), {
-          test: 'test2',
           // запись поста в Базу Данных
-          author: 'user.name',
-          //       authorId: user.id,
-          //       date: String(new Date()),
-          //       content: article.content,
-          //       img: article?.img || '',
+          author: user.name,
+          authorId: user.id,
+          date: String(new Date()),
+          title: article.title,
+          content: article.content,
+          img: article?.img || '',
         });
-        console.log('Document written with ID: ', ' docRef.id');
+        console.log('Document written with ID: ', docRef.id);
         history.push(RoutePath.HOME);
       } catch (e: any) {
         setErrorMsg(e);
       }
     }
-    console.log('writing');
   };
 
   return (

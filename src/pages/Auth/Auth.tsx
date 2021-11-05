@@ -1,13 +1,12 @@
 import React, { FC, SyntheticEvent, useState } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { getAuth, signInWithEmailAndPassword } from '@firebase/auth';
+import { getAuth, signInWithEmailAndPassword, User } from '@firebase/auth';
 import { Alert, Button, Form, Input } from 'antd';
 import { $isAuthorized, setAuth } from '../../store/isAutorized';
-import { $currentUser, getCurrentUser } from '../../store/currentUser';
-import { IUser } from '../../models/IUser';
 
 import css from './Auth.module.scss';
 import { addCurrentUserToStore } from '../../utils/addCurentUserToStore';
+import { $currentUser } from '../../store/currentUser';
 
 export interface IUserData {
   email: string;
@@ -33,9 +32,10 @@ const Auth: FC = () => {
       console.log(user.user, authUser);
       // add to store isAutorization true
       setAuth(true);
-      const currentUser = user.user;
+      const currentUser: User = user.user;
       if (currentUser) {
         addCurrentUserToStore(currentUser);
+        // console.log('current user in store', $currentUser);
       }
     } catch (error: any) {
       setErrorMsg(error.message);

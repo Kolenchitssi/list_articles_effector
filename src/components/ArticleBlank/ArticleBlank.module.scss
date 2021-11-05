@@ -1,0 +1,17 @@
+@import '../../style/constansts.scss';
+.card {
+  width: 400px;
+  height: 600px;
+  border: 1px solid $primary;
+  border-radius: 4px;
+}
+.date {
+  font-size: 1rem;
+  text-align: center;
+}
+.author {
+  text-align: left;
+  padding-top: 10px;
+  font-weight: 600;
+  font-size: 1.5rem;
+}

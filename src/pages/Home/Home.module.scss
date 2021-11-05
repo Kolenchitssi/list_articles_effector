@@ -1,6 +1,15 @@
 @import '../../style/constansts.scss';
 
 .content {
+  overflow-y: auto;
   height: calc(100vh - 180px);
   background-color: $textPrimary;
+  display: grid;
+  justify-items: center;
+  align-items: flex-start;
+  justify-content: space-between;
+  grid-auto-flow: row;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  grid-template-rows: repeat(auto-fill, minmax(640px, 800px));
+  gap: 5px 10px;
 }

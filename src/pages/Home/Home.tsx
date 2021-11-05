@@ -6,17 +6,28 @@ import {
   getFirestore,
 } from 'firebase/firestore';
 import css from './Home.module.scss';
+import { IArticle } from '../../models/IArticle';
+import ArticleBlank from '../../components/ArticleBlank/ArticleBlank';
 
 const Home: FC = () => {
-  const db = getFirestore();
-  const [posts, setPosts] = useState<any[]>([]);
+  const [articles, setArticles] = useState<IArticle[]>([]);
+  useEffect(() => {
+    const db = getFirestore();
 
-  // const getDb = async () => {
-  //   const querySnapshot = await getDocs(collection(db, 'users'));
-  //   querySnapshot.forEach(doc => {
-  //     console.log(`${doc.id} => ${doc.data()}`);
-  //   });
-  //   console.log('get DB');
+    const getDb = async () => {
+      const querySnapshot = await getDocs(collection(db, 'posts'));
+      console.log('querySnapshot', querySnapshot);
+      const arrArticles: IArticle[] = [];
+      querySnapshot.forEach(doc => {
+        arrArticles.push(doc.data() as IArticle);
+        // console.log(`${doc.id} => ${doc.data()}`);
+      });
+      setArticles(arrArticles);
+    };
+    getDb();
+  }, []);
+
+  console.log('get DB');
 
   //! Чтение и отображение постов из БД
   // useEffect(() => {
@@ -37,12 +48,22 @@ const Home: FC = () => {
   // getDb();
 
   return (
-    <div className={css.content}>
-      Home Page
-      {posts.map((post, index) => (
-        <p> post</p>
-      ))}
-    </div>
+    <>
+      <div> здесь будет фильтр и возможно чтотот еще</div>
+      <div className={css.content}>
+        {articles.map((article, index) => (
+          <ArticleBlank
+            key={article.authorId}
+            authorId={article.authorId}
+            author={article.author}
+            title={article.title}
+            content={article.content}
+            date={article.date}
+            img={article.img}
+          />
+        ))}
+      </div>
+    </>
   );
 };
 
