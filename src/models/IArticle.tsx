@@ -4,5 +4,5 @@ export interface IArticle {
   title: string;
   content: string;
   date: string;
-  img?: string[];
+  img: string[];
 }

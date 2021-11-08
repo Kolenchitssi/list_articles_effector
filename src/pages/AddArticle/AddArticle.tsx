@@ -9,6 +9,8 @@ import {
   addDoc,
   getDocs,
 } from 'firebase/firestore';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { getDownloadURL, getStorage, ref } from '@firebase/storage';
 import { IArticle } from '../../models/IArticle';
 import { RoutePath } from '../../router/RoutePath';
 import { $currentUser } from '../../store/currentUser';
@@ -30,19 +32,24 @@ const AddArticle: FC = () => {
   );
   const [errorMsg, setErrorMsg] = useState('');
   const user = useStore($currentUser);
-  console.log('user', $currentUser);
+  // console.log('user', $currentUser);
 
   const history = useHistory();
   const db: Firestore = getFirestore();
+  const storage = getStorage();
   // при вводе в отдельные поля вся форма перерисовывается :(
 
   const addPostHandler = async () => {
-    const imagesPath = [];
+    const imagesPath: string[] = [];
     if (user) {
       try {
         if (article.img) {
           for (let i = 0; i < article.img.length; i++) {
-            imagesPath[i] = writingImageToFirebase(article.img[i]);
+            imagesPath[i] = writingImageToFirebase(article.img[i]).fullPath; // записываем и получаем путь к img файлу
+            const imagesRefs = ref(storage, imagesPath[i]);
+            // eslint-disable-next-line no-await-in-loop
+            const urlImg1 = await getDownloadURL(imagesRefs);
+            imagesPath[i] = urlImg1.toString();
           }
         }
         const docRef = await addDoc(collection(db, 'posts'), {
@@ -52,14 +59,14 @@ const AddArticle: FC = () => {
           date: String(new Date()),
           title: article.title,
           content: article.content,
-          img: 'imagesPath',
+          img: imagesPath,
         });
-        console.log(
-          'Document written with ID: ',
-          docRef.id,
-          'imagesPath',
-          imagesPath
-        );
+        // console.log(
+        //   'Document written with ID: ',
+        //   docRef.id,
+        //   'imagesPath',
+        //   imagesPath[0]
+        // );
         history.push(RoutePath.HOME);
       } catch (e: any) {
         setErrorMsg(e);
