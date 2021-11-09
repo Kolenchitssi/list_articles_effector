@@ -48,7 +48,7 @@ const AddArticle: FC = () => {
             imagesPath[i] = writingImageToFirebase(article.img[i]).fullPath; // записываем и получаем путь к img файлу
             const imagesRefs = ref(storage, imagesPath[i]);
             // eslint-disable-next-line no-await-in-loop
-            const urlImg1 = await getDownloadURL(imagesRefs);
+            const urlImg1 = await getDownloadURL(imagesRefs); // получаем полный url картинки
             imagesPath[i] = urlImg1.toString();
           }
         }
