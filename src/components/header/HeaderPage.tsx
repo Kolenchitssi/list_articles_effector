@@ -7,7 +7,7 @@ import {
   LogoutOutlined,
   UserAddOutlined,
 } from '@ant-design/icons';
-import { Button } from 'antd';
+import { Avatar, Button } from 'antd';
 import { Header } from 'antd/lib/layout/layout';
 import React, { FC } from 'react';
 import { useHistory } from 'react-router-dom';
@@ -39,6 +39,7 @@ const HeaderPage: FC<IProps> = props => {
             <div>
               <span className={css.text}>
                 {'user: '}
+                <Avatar src={user.avatar} size={36} />
                 {user.name}{' '}
               </span>
               <Button

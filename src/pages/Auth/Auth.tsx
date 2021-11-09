@@ -6,7 +6,8 @@ import { $isAuthorized, setAuth } from '../../store/isAutorized';
 
 import css from './Auth.module.scss';
 import { addCurrentUserToStore } from '../../utils/addCurentUserToStore';
-import { $currentUser } from '../../store/currentUser';
+import { $currentUser, setCurrentUser } from '../../store/currentUser';
+import { IUser } from '../../models/IUser';
 
 export interface IUserData {
   email: string;
@@ -21,6 +22,7 @@ const Auth: FC = () => {
 
   const [errorMsg, setErrorMsg] = useState('');
   const authUser = getAuth();
+  const [thisUser, setThisUser] = useState({} as User);
 
   const handleLogin = async (e: SyntheticEvent<HTMLFormElement>) => {
     try {
@@ -29,14 +31,11 @@ const Auth: FC = () => {
         userData.email,
         userData.password
       );
-      // console.log(user.user, authUser);
+      const currentUser: User = user.user;
+      setThisUser(() => currentUser);
+      addCurrentUserToStore(thisUser);
       // add to store isAutorization true
       setAuth(true);
-      const currentUser: User = user.user;
-      if (currentUser) {
-        addCurrentUserToStore(currentUser);
-        // console.log('current user in store', $currentUser);
-      }
     } catch (error: any) {
       setErrorMsg(error.message);
     }
@@ -45,6 +44,7 @@ const Auth: FC = () => {
       email: '',
       password: '',
     });
+    console.log(thisUser);
   };
 
   return (

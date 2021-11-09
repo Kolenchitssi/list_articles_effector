@@ -1,8 +1,12 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import React, { FC, SyntheticEvent, useState } from 'react';
+import { addDoc, collection, getFirestore } from '@firebase/firestore';
+import { getDownloadURL } from '@firebase/storage';
 import {
   getAuth,
   createUserWithEmailAndPassword,
   updateProfile,
+  onAuthStateChanged,
 } from 'firebase/auth';
 import { useHistory } from 'react-router-dom';
 import { Alert, Form, Input, Button } from 'antd';
@@ -10,6 +14,7 @@ import css from './Registration.module.scss';
 import { IUser } from '../../models/IUser';
 import { setAuth } from '../../store/isAutorized';
 import { addCurrentUserToStore } from '../../utils/addCurentUserToStore';
+import { writingImageToFirebase } from '../../utils/writingImageToFirebase';
 
 interface IUserRegistration {
   email: string;
@@ -39,12 +44,14 @@ const Registration: FC = () => {
         userData.email,
         userData.password
       );
+
       // добавляем значения в поля  БД firebase
       await updateProfile(user.user, {
         displayName: userData.name,
         photoURL: userData.avatar || '',
       });
       console.log(user);
+
       // add to sore isAutorization true
       setAuth(true);
       addCurrentUserToStore(user.user);
@@ -52,6 +59,17 @@ const Registration: FC = () => {
       const errorMessage = error.message;
       console.log(errorMessage);
     }
+
+    // add user to database allUsers
+    await onAuthStateChanged(auth, user => {
+      const db = getFirestore();
+      addDoc(collection(db, 'allUsers'), {
+        name: user?.displayName,
+        email: user?.email,
+        id: user?.uid,
+        avatar: userData.avatar,
+      });
+    });
 
     setUserData({
       email: '',
@@ -136,10 +154,19 @@ const Registration: FC = () => {
           rules={[{ required: false, message: 'Please input your avatar' }]}
         >
           <Input
+            type='file'
+            accept='.jpg, .jpeg, .png'
             placeholder='your avatar'
             value={userData.avatar}
-            onChange={e => {
-              setUserData({ ...userData, avatar: e.target.value });
+            onChange={async e => {
+              const files = e.target.files;
+              if (files) {
+                const imagesRefs = writingImageToFirebase(files[0]); // получаем ref  img файлa
+                // eslint-disable-next-line no-await-in-loop
+                const urlImg1 = await getDownloadURL(imagesRefs); // получаем полный url картинки
+                // imagesPath = urlImg1.toString();
+                setUserData({ ...userData, avatar: urlImg1 });
+              }
             }}
           />
         </Form.Item>

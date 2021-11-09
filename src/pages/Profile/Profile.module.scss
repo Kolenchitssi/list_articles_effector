@@ -1,0 +1,39 @@
+@import '../../style/constansts.scss';
+
+.profileWrapper {
+  background-color: $light3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1 1 auto;
+}
+
+.card {
+  padding: 20px 50px;
+  background-color: $info;
+  display: block;
+  max-width: 600px;
+  min-height: 300px;
+  border: 6px double $primary;
+}
+.headerCard {
+  margin-bottom: 40px;
+  padding: 10px;
+  border-bottom: 3px ridge $light3;
+  color: $textPrimary;
+  text-align: center;
+  text-shadow: 2px 3px 2px $dark3;
+  font-size: 2rem;
+  background-color: $textSecondary;
+  border-radius: 16px 16px 0 0;
+}
+
+.wrapperCard {
+  display: flex;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.leftCard {
+  padding-right: 20px;
+}
