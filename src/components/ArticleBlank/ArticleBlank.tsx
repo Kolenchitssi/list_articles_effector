@@ -22,6 +22,8 @@ const ArticleBlank: FC<IArticle> = ({
             preview={{ visible: false }}
             width={200}
             src={img[0]}
+            alt='picture'
+            title='Щелкните по картинке чтобы просмотреть все'
             onClick={() => setVisible(true)}
           />
           <div style={{ display: 'none' }}>

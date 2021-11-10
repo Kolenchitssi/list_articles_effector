@@ -16,6 +16,7 @@ import { RoutePath } from '../../router/RoutePath';
 import { $currentUser } from '../../store/currentUser';
 import css from './AddArticle.module.scss';
 import { writingImageToFirebase } from '../../utils/writingImageToFirebase';
+import { formatDate } from '../../utils/formatDate';
 
 export interface IArticlePicture {
   authorId: string;
@@ -56,7 +57,7 @@ const AddArticle: FC = () => {
           // запись поста в Базу Данных
           author: user.name,
           authorId: user.id,
-          date: String(new Date()),
+          date: formatDate(new Date()),
           title: article.title,
           content: article.content,
           img: imagesPath,

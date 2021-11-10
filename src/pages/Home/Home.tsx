@@ -17,33 +17,37 @@ import { IArticle } from '../../models/IArticle';
 import ArticleBlank from '../../components/ArticleBlank/ArticleBlank';
 import { getImgRefsStoreFirebase } from '../../utils/getImgFromStoreFirebase';
 import css from './Home.module.scss';
+import FilterArticle from '../../components/FilterArticle/FilterArticle';
+import { getDataArrayFromFirebase } from '../../utils/getDataArrayFromFirebase';
 
 interface IArticleUrlImages extends IArticle {
   listUrlImages: StorageReference[];
 }
 
-const getDb = async () => {
-  const db: Firestore = getFirestore();
+// const getDb = async () => {
+//   const db: Firestore = getFirestore();
 
-  const querySnapshot = await getDocs(collection(db, 'posts'));
-  const arrArticles: IArticle[] = [];
+//   const querySnapshot = await getDocs(collection(db, 'posts'));
+//   const arrArticles: IArticle[] = [];
 
-  querySnapshot.forEach(doc => {
-    arrArticles.push(doc.data() as IArticle);
-    // console.log(`${doc.id} => ${doc.data()}`);
-  });
+//   querySnapshot.forEach(doc => {
+//     arrArticles.push(doc.data() as IArticle);
+//     // console.log(`${doc.id} => ${doc.data()}`);
+//   });
 
-  return arrArticles;
-};
+//   return arrArticles;
+// };
+
+// вынес отдельнов функцию getDataArrayFromFirebase
 
 const Home: FC = () => {
   const [articles, setArticles] = useState<IArticle[]>([] as IArticle[]);
-  const [urlImgList, setUrlImgList] = useState<string[]>([]);
-  const urlImgList2: string[] = [];
+  const [resultFilter, setResultFilter] = useState<IArticle[]>(articles);
 
   const getListWithUrlsImg = async () => {
-    const arrArticles = await getDb();
+    const arrArticles = await getDataArrayFromFirebase<IArticle>('posts');
     setArticles(arrArticles);
+    setResultFilter(arrArticles);
   };
 
   useEffect(() => {
@@ -55,14 +59,16 @@ const Home: FC = () => {
   return (
     <>
       <div className={css.homeMenu}>
-        {' '}
-        здесь будет фильтр и возможно что-то еще
+        <FilterArticle
+          arrArticles={articles}
+          setResultFilter={setResultFilter}
+        />
       </div>
       <div>
         <p> Щелкните по картинке чтобы просмотреть все</p>
       </div>
       <div className={css.content}>
-        {articles.map((article, index) => (
+        {resultFilter.map((article, index) => (
           <ArticleBlank
             key={article.authorId + article.date}
             authorId={article.authorId}

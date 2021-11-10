@@ -1,4 +1,8 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { StorageReference } from '@firebase/storage';
+
 export interface IArticle {
+  [key: string]: string | string[] | StorageReference[];
   authorId: string;
   author: string;
   title: string;
