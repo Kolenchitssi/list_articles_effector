@@ -15,14 +15,7 @@ import { IUser } from '../../models/IUser';
 import { setAuth } from '../../store/isAutorized';
 import { addCurrentUserToStore } from '../../utils/addCurentUserToStore';
 import { writingImageToFirebase } from '../../utils/writingImageToFirebase';
-
-interface IUserRegistration {
-  email: string;
-  password: string;
-  id: string;
-  name: string;
-  avatar: string;
-}
+import { IUserRegistration } from '../../models/IUserRegistration';
 
 const Registration: FC = () => {
   const history = useHistory();

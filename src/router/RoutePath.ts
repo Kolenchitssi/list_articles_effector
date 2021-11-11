@@ -5,4 +5,5 @@ export enum RoutePath {
   ERROR = '/error',
   REGISTRATION = '/registration',
   ADD_ARTICLE = '/add_article',
+  EDIT_PROFILE = '/edit_profile',
 }

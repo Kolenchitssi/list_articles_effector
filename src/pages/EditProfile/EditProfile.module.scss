@@ -1,0 +1,50 @@
+@import '../../style/constansts.scss';
+
+.wrapperForm {
+  border-radius: 8px;
+  border: 2px solid $dark2;
+  width: 70vw;
+  margin: 80px auto;
+}
+
+.form {
+  background-color: $secondary;
+}
+
+.rowInput {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  padding: 30px 40px;
+
+  .inputLabel {
+    padding-right: 20px;
+    display: inline-block;
+    width: 100px;
+    color: $textPrimary;
+    font-weight: 600;
+  }
+}
+
+.buttonEdit {
+  margin-left: 35px;
+  background-color: $warning;
+  border-radius: 5px;
+  color: $dark4;
+  font-weight: 600;
+  &:hover {
+    background-color: $process;
+    color: $dark3;
+  }
+}
+
+.buttonCancel {
+  background-color: $danger;
+  border-radius: 5px;
+  color: $dark4;
+  font-weight: 800;
+  &:hover {
+    background-color: $light1;
+    color: $danger;
+  }
+}
