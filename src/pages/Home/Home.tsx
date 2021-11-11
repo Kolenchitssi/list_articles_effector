@@ -55,7 +55,7 @@ const Home: FC = () => {
   }, []);
 
   // console.log('get DB', articles);
-
+  // console.log('resultFilter', resultFilter);
   return (
     <>
       <div className={css.homeMenu}>
@@ -70,7 +70,7 @@ const Home: FC = () => {
       <div className={css.content}>
         {resultFilter.map((article, index) => (
           <ArticleBlank
-            key={article.authorId + article.date}
+            key={article.authorId + article.date + article.title}
             authorId={article.authorId}
             author={article.author}
             title={article.title}

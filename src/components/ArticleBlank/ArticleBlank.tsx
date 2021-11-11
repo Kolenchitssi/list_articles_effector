@@ -16,7 +16,7 @@ const ArticleBlank: FC<IArticle> = ({
   return (
     <Card title={title} bordered={false} className={css.card}>
       <p className={css.content}>{content}</p>
-      {img && img[0] !== '' ? (
+      {img.length > 1 && img[0] !== '' ? (
         <div>
           <Image
             preview={{ visible: false }}

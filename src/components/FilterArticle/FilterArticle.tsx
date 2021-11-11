@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Form, Input, Button, Select, Row, Col, Alert } from 'antd';
+import { Form, Input, Button, Select, Row, Col, Alert, DatePicker } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { IArticle } from '../../models/IArticle';
 import css from './FilterArticle.module.scss';
@@ -47,13 +47,10 @@ const FilterArticle = (props: Iprops) => {
     filterKey: string,
     filterValue: string
   ) => {
-    if (filterKey === 'authorId') {
-      const result = arr.filter((item: IArticle) => {
-        if (item[filterKey] === filterValue) {
-          return true;
-        }
-        return false;
-      });
+    if (filterKey === 'authorId' || filterKey === 'date') {
+      const result = arr.filter(
+        (item: IArticle) => item[filterKey] === filterValue
+      );
       setResultFilter(result);
     }
 
@@ -112,6 +109,7 @@ const FilterArticle = (props: Iprops) => {
                 <Option value='all'>Все</Option>
                 <Option value='authorId'>Автор</Option>
                 <Option value='title'>Заголовок</Option>
+                <Option value='date'>Дата</Option>
               </Select>
             </Form.Item>
           </Col>
@@ -128,7 +126,7 @@ const FilterArticle = (props: Iprops) => {
                 <Select
                   value={filter}
                   style={{ width: 180, margin: '0 8px' }}
-                  onChange={(filterValue: string) => setFilterVal(filterValue)}
+                  onChange={(author: string) => setFilterVal(author)}
                 >
                   {allAuthors.map(author => (
                     <Option value={author.id} key={author.id}>
@@ -151,6 +149,22 @@ const FilterArticle = (props: Iprops) => {
                   value={filterVal}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     setFilterVal(e.target.value);
+                  }}
+                />
+              </Form.Item>
+            </Col>
+          ) : null}
+          {filter === 'date' ? (
+            <Col span={10}>
+              <Form.Item
+                label='Статья написана:'
+                name='titleValue'
+                rules={[{ required: true, message: 'Please select date' }]}
+              >
+                <DatePicker
+                  onChange={(date, dateString) => {
+                    // console.log(date, dateString);
+                    setFilterVal(dateString);
                   }}
                 />
               </Form.Item>
