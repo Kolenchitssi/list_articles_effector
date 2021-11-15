@@ -46,6 +46,7 @@ const Home: FC = () => {
 
   const getListWithUrlsImg = async () => {
     const arrArticles = await getDataArrayFromFirebase<IArticle>('posts');
+
     setArticles(arrArticles);
     setResultFilter(arrArticles);
   };
@@ -64,7 +65,7 @@ const Home: FC = () => {
           setResultFilter={setResultFilter}
         />
       </div>
-      <div>
+      <div className={css.upperText}>
         <p> Щелкните по картинке чтобы просмотреть все</p>
       </div>
       <div className={css.content}>

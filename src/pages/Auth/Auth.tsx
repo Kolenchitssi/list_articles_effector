@@ -22,7 +22,7 @@ const Auth: FC = () => {
 
   const [errorMsg, setErrorMsg] = useState('');
   const authUser = getAuth();
-  const [thisUser, setThisUser] = useState({} as User);
+  // const [thisUser, setThisUser] = useState({} as User);
 
   const handleLogin = async (e: SyntheticEvent<HTMLFormElement>) => {
     try {
@@ -32,8 +32,9 @@ const Auth: FC = () => {
         userData.password
       );
       const currentUser: User = user.user;
-      setThisUser(() => currentUser);
-      addCurrentUserToStore(thisUser);
+
+      // setThisUser(currentUser);
+      addCurrentUserToStore(currentUser);
       // add to store isAutorization true
       setAuth(true);
     } catch (error: any) {
@@ -44,7 +45,6 @@ const Auth: FC = () => {
       email: '',
       password: '',
     });
-    console.log(thisUser);
   };
 
   return (

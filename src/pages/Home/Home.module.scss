@@ -1,11 +1,12 @@
 @import '../../style/constansts.scss';
 
 .homeMenu {
-  margin-bottom: 20px;
+  padding-bottom: 8px;
+  background-color: $textSecondary;
 }
 .content {
   overflow-y: auto;
-  height: calc(100vh - 240px);
+  height: calc(100vh - 260px);
   background-color: $textPrimary;
   display: grid;
   justify-items: center;
@@ -15,4 +16,17 @@
   grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
   grid-template-rows: repeat(auto-fill, minmax(640px, 800px));
   gap: 5px 10px;
+}
+
+.upperText {
+  margin: 0;
+  padding: 0;
+  background-color: $light3;
+
+  & p {
+    text-align: center;
+    font-style: italic;
+    margin: 0;
+    padding: 0;
+  }
 }

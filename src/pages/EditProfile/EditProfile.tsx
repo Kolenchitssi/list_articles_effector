@@ -175,7 +175,7 @@ const EditProfile: FC = () => {
             type='file'
             accept='.jpg, .jpeg, .png'
             placeholder='your avatar'
-            value={userData.avatar}
+            // value={userData.avatar}
             onChange={async e => {
               const files = e.target.files;
               if (files) {

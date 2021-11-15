@@ -1,7 +1,8 @@
 @import '../../style/constansts.scss';
 .card {
+  position: relative;
   width: 400px;
-  height: 600px;
+  height: 560px;
   border: 1px solid $primary;
   border-radius: 4px;
 }
@@ -14,4 +15,27 @@
   padding-top: 10px;
   font-weight: 600;
   font-size: 1.5rem;
+}
+
+.footerButton {
+  position: absolute;
+  bottom: 15px;
+  right: 30px;
+}
+.deleteButton {
+  border: 2px dotted $remove;
+  &:hover {
+    background: linear-gradient(180deg, $danger, $light2, $danger);
+    border: 2px dotted $secondary;
+  }
+}
+
+.editButton {
+  border: 2px dotted $secondary;
+  margin-right: 20px;
+
+  &:hover {
+    background: linear-gradient(180deg, $info, $light3, $info);
+    border: 2px dotted $success;
+  }
 }

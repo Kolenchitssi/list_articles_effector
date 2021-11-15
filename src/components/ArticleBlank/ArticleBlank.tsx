@@ -1,4 +1,5 @@
-import { Card, Image } from 'antd';
+import { DeleteTwoTone, EditTwoTone } from '@ant-design/icons';
+import { Button, Card, Image } from 'antd';
 import React, { FC, useState } from 'react';
 import { IArticle } from '../../models/IArticle';
 import css from './ArticleBlank.module.scss';
@@ -12,11 +13,11 @@ const ArticleBlank: FC<IArticle> = ({
   authorId,
 }) => {
   const [visible, setVisible] = useState(false);
-  const imgPath = `gs://listarticleseffector.appspot.com/${img[0]}`;
+
   return (
     <Card title={title} bordered={false} className={css.card}>
       <p className={css.content}>{content}</p>
-      {img.length > 1 && img[0] !== '' ? (
+      {img.length > 0 && img[0] !== '' ? (
         <div>
           <Image
             preview={{ visible: false }}
@@ -41,6 +42,14 @@ const ArticleBlank: FC<IArticle> = ({
       <p className={css.author}>{author}</p>
 
       <p className={css.date}>{date}</p>
+      <div className={css.footerButton}>
+        <Button type='ghost' size='large' className={css.editButton}>
+          <EditTwoTone twoToneColor='#5b98c6' style={{ fontSize: '24px' }} />
+        </Button>
+        <Button type='ghost' size='large' className={css.deleteButton}>
+          <DeleteTwoTone twoToneColor='#eb2f96' style={{ fontSize: '24px' }} />
+        </Button>
+      </div>
     </Card>
   );
 };

@@ -91,7 +91,10 @@ const FilterArticle = (props: Iprops) => {
         onFinishFailed={onFinishFailed}
         autoComplete='off'
       >
-        <Row justify='space-around'>
+        <Row
+          justify='space-around'
+          style={{ margin: 0, padding: 0, height: '40px' }}
+        >
           <Col span={6}>
             <Form.Item
               label='Filter'
