@@ -5,6 +5,7 @@ export interface IArticle {
   [key: string]: string | string[] | StorageReference[];
   authorId: string;
   author: string;
+  articleId: string;
   title: string;
   content: string;
   date: string;

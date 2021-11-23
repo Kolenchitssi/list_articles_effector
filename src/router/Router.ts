@@ -8,6 +8,7 @@ import Profile from '../pages/Profile/Profile';
 import AddArticle from '../pages/AddArticle/AddArticle';
 import Error from '../pages/Error/Error';
 import EditProfile from '../pages/EditProfile/EditProfile';
+import EditArticle from '../pages/EditArticle/EditArticles';
 
 export const publicRoutes: IRoute[] = [
   { path: RoutePath.AUTH, exact: true, component: Auth },
@@ -22,4 +23,5 @@ export const privateRoutes: IRoute[] = [
   { path: RoutePath.ERROR, exact: true, component: Error },
   { path: RoutePath.ADD_ARTICLE, exact: true, component: AddArticle },
   { path: RoutePath.EDIT_PROFILE, exact: true, component: EditProfile },
+  { path: RoutePath.EDIT_ARTICLE, exact: false, component: EditArticle },
 ];

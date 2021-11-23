@@ -1,5 +1,5 @@
-import React, { FC, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { FC, useEffect, useState } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 import { Alert, Input, Form, Button } from 'antd';
 import { useStore } from 'effector-react';
 import {
@@ -7,15 +7,15 @@ import {
   Firestore,
   collection,
   addDoc,
-  setDoc,
-  getDocs,
+  doc,
+  getDoc,
 } from 'firebase/firestore';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { getDownloadURL, getStorage, ref } from '@firebase/storage';
 import { IArticle } from '../../models/IArticle';
 import { RoutePath } from '../../router/RoutePath';
 import { $currentUser } from '../../store/currentUser';
-import css from './AddArticle.module.scss';
+import css from './EditArticle.module.scss';
 import { writingImageToFirebase } from '../../utils/writingImageToFirebase';
 import { formatDate } from '../../utils/formatDate';
 
@@ -28,18 +28,33 @@ export interface IArticlePicture {
   img: FileList | null;
 }
 
-const AddArticle: FC = () => {
+const EditArticle: FC = () => {
+  const articleId: { id: string } = useParams();
+  console.log('articleId', articleId.id, typeof articleId);
+
+  const [currentArticle, setCurrentArticle] = useState<IArticle>(
+    {} as IArticle
+  );
   const [article, setArticle] = useState<IArticlePicture>(
     {} as IArticlePicture
   );
   const [errorMsg, setErrorMsg] = useState('');
   const user = useStore($currentUser);
-  // console.log('user', $currentUser);
 
   const history = useHistory();
   const db: Firestore = getFirestore();
   const storage = getStorage();
   // при вводе в отдельные поля вся форма перерисовывается :(
+
+  const getCurrentArticle = async () => {
+    const docRef = doc(db, 'posts', articleId.id);
+    const docSnap = await getDoc(docRef);
+    console.log(docSnap.data);
+  };
+
+  useEffect(() => {
+    getCurrentArticle();
+  }, []);
 
   const addPostHandler = async () => {
     const imagesPath: string[] = [];
@@ -63,7 +78,6 @@ const AddArticle: FC = () => {
           content: article.content,
           img: imagesPath,
         });
-        await setDoc(docRef, { articleId: docRef.id }, { merge: true });
         // console.log(
         //   'Document written with ID: ',
         //   docRef.id,
@@ -170,4 +184,4 @@ const AddArticle: FC = () => {
   );
 };
 
-export default AddArticle;
+export default EditArticle;

@@ -73,6 +73,7 @@ const Home: FC = () => {
           <ArticleBlank
             key={article.authorId + article.date + article.title}
             authorId={article.authorId}
+            articleId={article.articleId}
             author={article.author}
             title={article.title}
             content={article.content}

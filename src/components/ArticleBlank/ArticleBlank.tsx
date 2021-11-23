@@ -1,7 +1,9 @@
 import { DeleteTwoTone, EditTwoTone } from '@ant-design/icons';
 import { Button, Card, Image } from 'antd';
 import React, { FC, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { IArticle } from '../../models/IArticle';
+import { RoutePath } from '../../router/RoutePath';
 import css from './ArticleBlank.module.scss';
 
 const ArticleBlank: FC<IArticle> = ({
@@ -11,7 +13,9 @@ const ArticleBlank: FC<IArticle> = ({
   img,
   author,
   authorId,
+  articleId,
 }) => {
+  const history = useHistory();
   const [visible, setVisible] = useState(false);
 
   return (
@@ -43,7 +47,15 @@ const ArticleBlank: FC<IArticle> = ({
 
       <p className={css.date}>{date}</p>
       <div className={css.footerButton}>
-        <Button type='ghost' size='large' className={css.editButton}>
+        <Button
+          type='ghost'
+          size='large'
+          className={css.editButton}
+          onClick={e => {
+            console.log(e);
+            history.push(`/edit_article/${articleId}`);
+          }}
+        >
           <EditTwoTone twoToneColor='#5b98c6' style={{ fontSize: '24px' }} />
         </Button>
         <Button type='ghost' size='large' className={css.deleteButton}>
