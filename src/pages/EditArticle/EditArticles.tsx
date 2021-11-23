@@ -8,6 +8,7 @@ import {
   collection,
   addDoc,
   doc,
+  setDoc,
   getDoc,
 } from 'firebase/firestore';
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -46,14 +47,24 @@ const EditArticle: FC = () => {
   const storage = getStorage();
   // при вводе в отдельные поля вся форма перерисовывается :(
 
+  const docRef = doc(db, 'posts', articleId.id);
+
   const getCurrentArticle = async () => {
-    const docRef = doc(db, 'posts', articleId.id);
     const docSnap = await getDoc(docRef);
-    console.log(docSnap.data);
+    if (docSnap.exists()) {
+      await setCurrentArticle(docSnap.data() as IArticle);
+      console.log('Document data:', docSnap.data());
+      console.log('currentArticle', currentArticle);
+    } else {
+      setErrorMsg('Ошибка чтения, статья не найдена');
+      // doc.data() will be undefined in this case
+      console.log('No such document!');
+    }
   };
 
   useEffect(() => {
     getCurrentArticle();
+    console.log('получаем текущую статью');
   }, []);
 
   const addPostHandler = async () => {
@@ -69,15 +80,18 @@ const EditArticle: FC = () => {
             imagesPath[i] = urlImg1.toString();
           }
         }
-        const docRef = await addDoc(collection(db, 'posts'), {
-          // запись поста в Базу Данных
-          author: user.name,
-          authorId: user.id,
-          date: formatDate(new Date()),
-          title: article.title,
-          content: article.content,
-          img: imagesPath,
-        });
+
+        await setDoc(docRef, { articleId: docRef.id }, { merge: true });
+
+        // const docRef = await addDoc(collection(db, 'posts'), {
+        //   // запись поста в Базу Данных
+        //   author: user.name,
+        //   authorId: user.id,
+        //   date: formatDate(new Date()),
+        //   title: article.title,
+        //   content: article.content,
+        //   img: imagesPath,
+        // });
         // console.log(
         //   'Document written with ID: ',
         //   docRef.id,
@@ -101,6 +115,7 @@ const EditArticle: FC = () => {
           description={errorMsg}
         />
       )}
+      <p>{currentArticle.title}</p>
 
       <Form
         className={css.form}
@@ -109,37 +124,39 @@ const EditArticle: FC = () => {
         wrapperCol={{ span: 12 }}
         initialValues={{ remember: true }}
         onFinish={addPostHandler}
-        onFinishFailed={() => setErrorMsg('Ошибка сохранения')}
+        onFinishFailed={() => setErrorMsg('Error')}
         autoComplete='off'
       >
-        <Form.Item
+        {/* <Form.Item
           label='Title'
           name='title'
           rules={[{ required: true, message: 'Title your article!' }]}
-        >
-          <Input
-            placeholder='title'
-            value={article.title}
-            onChange={e => {
-              setArticle({ ...article, title: e.target.value });
-            }}
-          />
-        </Form.Item>
+        > */}
+        <input
+          // placeholder='Title'
+          value={currentArticle.title}
+          onChange={e => {
+            setArticle({ ...article, title: e.target.value });
+          }}
+        />
+        {/* </Form.Item> */}
 
-        <Form.Item
+        {/* <Form.Item
           label='Content'
           name='content'
           rules={[{ required: true, message: 'Please input your text!' }]}
-        >
-          <Input.TextArea
-            rows={12}
-            placeholder='your text'
-            value={article.content}
-            onChange={e => {
-              setArticle({ ...article, content: e.target.value });
-            }}
-          />
-        </Form.Item>
+        > */}
+        <textarea
+          className={css.textArea}
+          placeholder='Enter text'
+          value={currentArticle.content}
+          onChange={e => {
+            setArticle({ ...article, content: e.target.value });
+          }}
+        />
+        {/* </Form.Item> */}
+
+        {/* <img src={currentArticle.img[0]} alt='' /> */}
 
         <Form.Item
           label='Img'
@@ -154,6 +171,7 @@ const EditArticle: FC = () => {
             // value={article.img.}
             onChange={e => {
               setArticle({ ...article, img: e.target.files }); // = FileList: [file1, file2,...  etc]
+              console.log(e.target.files);
             }}
           />
         </Form.Item>
