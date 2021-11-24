@@ -20,13 +20,9 @@ import css from './EditArticle.module.scss';
 import { writingImageToFirebase } from '../../utils/writingImageToFirebase';
 import { formatDate } from '../../utils/formatDate';
 
-export interface IArticlePicture {
-  authorId: string;
-  author: string;
-  title: string;
-  content: string;
-  date: string;
+export interface INewImages {
   img: FileList | null;
+  pathImages: string[];
 }
 
 const EditArticle: FC = () => {
@@ -36,9 +32,7 @@ const EditArticle: FC = () => {
   const [currentArticle, setCurrentArticle] = useState<IArticle>(
     {} as IArticle
   );
-  const [article, setArticle] = useState<IArticlePicture>(
-    {} as IArticlePicture
-  );
+  const [newImages, setNewImages] = useState<INewImages>({} as INewImages);
   const [errorMsg, setErrorMsg] = useState('');
   const user = useStore($currentUser);
 
@@ -71,33 +65,27 @@ const EditArticle: FC = () => {
     const imagesPath: string[] = [];
     if (user) {
       try {
-        if (article.img) {
-          for (let i = 0; i < article.img.length; i++) {
-            imagesPath[i] = writingImageToFirebase(article.img[i]).fullPath; // записываем и получаем путь к img файлу
+        if (newImages.img) {
+          for (let i = 0; i < newImages.img.length; i++) {
+            imagesPath[i] = writingImageToFirebase(newImages.img[i]).fullPath; // записываем и получаем путь к img файлу
             const imagesRefs = ref(storage, imagesPath[i]);
             // eslint-disable-next-line no-await-in-loop
             const urlImg1 = await getDownloadURL(imagesRefs); // получаем полный url картинки
             imagesPath[i] = urlImg1.toString();
           }
+          setNewImages({ ...newImages, pathImages: imagesPath });
         }
 
-        await setDoc(docRef, { articleId: docRef.id }, { merge: true });
+        await setDoc(
+          docRef,
+          {
+            title: currentArticle.title,
+            content: currentArticle.content,
+            img: imagesPath,
+          },
+          { merge: true }
+        );
 
-        // const docRef = await addDoc(collection(db, 'posts'), {
-        //   // запись поста в Базу Данных
-        //   author: user.name,
-        //   authorId: user.id,
-        //   date: formatDate(new Date()),
-        //   title: article.title,
-        //   content: article.content,
-        //   img: imagesPath,
-        // });
-        // console.log(
-        //   'Document written with ID: ',
-        //   docRef.id,
-        //   'imagesPath',
-        //   imagesPath[0]
-        // );
         history.push(RoutePath.HOME);
       } catch (e: any) {
         setErrorMsg(e);
@@ -184,7 +172,8 @@ const EditArticle: FC = () => {
             name='file'
             multiple
             onChange={e => {
-              setArticle({ ...article, img: e.target.files }); // = FileList: [file1, file2,...  etc]
+              setNewImages({ ...newImages, img: e.target.files }); // = FileList: [file1, file2,...  etc]
+              console.log(e.target.files);
             }}
           />
         </Form.Item>
