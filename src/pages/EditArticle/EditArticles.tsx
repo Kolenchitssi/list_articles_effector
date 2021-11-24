@@ -133,10 +133,11 @@ const EditArticle: FC = () => {
           rules={[{ required: true, message: 'Title your article!' }]}
         > */}
         <input
-          // placeholder='Title'
+          placeholder='Title'
           value={currentArticle.title}
+          className={css.titleArticle}
           onChange={e => {
-            setArticle({ ...article, title: e.target.value });
+            setCurrentArticle({ ...currentArticle, title: e.target.value });
           }}
         />
         {/* </Form.Item> */}
@@ -146,20 +147,33 @@ const EditArticle: FC = () => {
           name='content'
           rules={[{ required: true, message: 'Please input your text!' }]}
         > */}
+
         <textarea
           className={css.textArea}
           placeholder='Enter text'
           value={currentArticle.content}
           onChange={e => {
-            setArticle({ ...article, content: e.target.value });
+            setCurrentArticle({ ...currentArticle, content: e.target.value });
+            console.log(currentArticle);
           }}
         />
         {/* </Form.Item> */}
 
-        {/* <img src={currentArticle.img[0]} alt='' /> */}
+        {currentArticle.img &&
+        currentArticle.img.length > 0 &&
+        currentArticle.img[0] !== '' ? (
+          <div className={css.pictureGrid}>
+            {currentArticle.img.map(item => (
+              <div className={css.wrapImg}>
+                {' '}
+                <img src={item} alt='' key={item} />
+              </div>
+            ))}
+          </div>
+        ) : null}
 
         <Form.Item
-          label='Img'
+          label='Заменить изображения на:'
           name='img'
           rules={[{ required: false, message: 'Please choose image' }]}
         >
@@ -167,11 +181,10 @@ const EditArticle: FC = () => {
             type='file'
             accept='.jpg, .jpeg, .png'
             placeholder='Please choose image'
+            name='file'
             multiple
-            // value={article.img.}
             onChange={e => {
               setArticle({ ...article, img: e.target.files }); // = FileList: [file1, file2,...  etc]
-              console.log(e.target.files);
             }}
           />
         </Form.Item>
