@@ -17,7 +17,7 @@ interface Iprops {
 const FilterArticle = (props: Iprops) => {
   const { arrArticles, setResultFilter } = props;
   const [allAuthors, setAllAuthors] = useState([] as IUser[]);
-  const [filter, setFilter] = useState('');
+  const [filter, setFilter] = useState('all');
   const [filterVal, setFilterVal] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
 
