@@ -1,6 +1,8 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { DeleteTwoTone, EditTwoTone } from '@ant-design/icons';
+import { deleteDoc, doc, Firestore, getFirestore } from '@firebase/firestore';
 import { Button, Card, Image } from 'antd';
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { IArticle } from '../../models/IArticle';
 import { RoutePath } from '../../router/RoutePath';
@@ -14,6 +16,7 @@ const ArticleBlank: FC<IArticle> = ({
   author,
   authorId,
   articleId,
+  currentUserId,
 }) => {
   const history = useHistory();
   const [visible, setVisible] = useState(false);
@@ -46,22 +49,35 @@ const ArticleBlank: FC<IArticle> = ({
       <p className={css.author}>{author}</p>
 
       <p className={css.date}>{date}</p>
-      <div className={css.footerButton}>
-        <Button
-          type='ghost'
-          size='large'
-          className={css.editButton}
-          onClick={e => {
-            console.log(e);
-            history.push(`/edit_article/${articleId}`);
-          }}
-        >
-          <EditTwoTone twoToneColor='#5b98c6' style={{ fontSize: '24px' }} />
-        </Button>
-        <Button type='ghost' size='large' className={css.deleteButton}>
-          <DeleteTwoTone twoToneColor='#eb2f96' style={{ fontSize: '24px' }} />
-        </Button>
-      </div>
+      {currentUserId === authorId ? (
+        <div className={css.footerButton}>
+          <Button
+            type='ghost'
+            size='large'
+            className={css.editButton}
+            onClick={e => {
+              history.push(`/edit_article/${articleId}`);
+            }}
+          >
+            <EditTwoTone twoToneColor='#5b98c6' style={{ fontSize: '24px' }} />
+          </Button>
+          <Button
+            type='ghost'
+            size='large'
+            className={css.deleteButton}
+            onClick={async e => {
+              const db: Firestore = getFirestore();
+              await deleteDoc(doc(db, 'posts', articleId));
+              history.push(`/hhh`);
+            }}
+          >
+            <DeleteTwoTone
+              twoToneColor='#eb2f96'
+              style={{ fontSize: '24px' }}
+            />
+          </Button>
+        </div>
+      ) : null}
     </Card>
   );
 };

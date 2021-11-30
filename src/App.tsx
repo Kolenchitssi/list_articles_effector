@@ -13,7 +13,7 @@ import { addCurrentUserToStore } from './utils/addCurentUserToStore';
 
 const App: FC = () => {
   // const { defaultState } = $store;
-  // $store.defaultState = 8; //так наверно нельзя делать
+  // $store.defaultState = 8; //так наверно нельзя делать надо useStore
   // const count = useStore($store);
 
   useEffect(() => {

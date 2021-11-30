@@ -13,8 +13,10 @@ import {
   ref,
   StorageReference,
 } from '@firebase/storage';
+import { useStore } from 'effector-react';
 import { IArticle } from '../../models/IArticle';
 import ArticleBlank from '../../components/ArticleBlank/ArticleBlank';
+import { $currentUser } from '../../store/currentUser';
 import { getImgRefsStoreFirebase } from '../../utils/getImgFromStoreFirebase';
 import css from './Home.module.scss';
 import FilterArticle from '../../components/FilterArticle/FilterArticle';
@@ -43,6 +45,7 @@ interface IArticleUrlImages extends IArticle {
 const Home: FC = () => {
   const [articles, setArticles] = useState<IArticle[]>([] as IArticle[]);
   const [resultFilter, setResultFilter] = useState<IArticle[]>(articles);
+  const currentUser = useStore($currentUser);
 
   const getListWithUrlsImg = async () => {
     const arrArticles = await getDataArrayFromFirebase<IArticle>('posts');
@@ -79,6 +82,7 @@ const Home: FC = () => {
             content={article.content}
             date={article.date}
             img={article.img}
+            currentUserId={currentUser.id}
           />
         ))}
       </div>
