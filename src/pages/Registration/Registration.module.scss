@@ -1,0 +1,11 @@
+@import '../../style/constansts.scss';
+
+.form {
+  margin-top: 40px;
+}
+.buttonRegistration {
+  background-color: $info;
+  border-radius: 5px;
+  color: $dark4;
+  font-weight: 600;
+}

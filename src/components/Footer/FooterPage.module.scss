@@ -1,0 +1,17 @@
+@import '../../style/constansts.scss';
+
+.footer {
+  color: $textPrimary;
+  background-color: $dark3;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  p {
+    color: $dark1;
+    font-style: italic;
+    font-size: 1rem;
+    text-align: center;
+  }
+}

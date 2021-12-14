@@ -1,0 +1,82 @@
+{
+    "env": {
+      "browser": true,
+      "es2021": true,
+      "node": true
+    },
+    "globals": {
+      "JSX": true
+    },
+    "extends": [
+      "plugin:react/recommended",
+      // "plugin:react/jsx-runtime",
+      "airbnb",
+      // "plugin:import/typescript",
+      // "plugin:react-hooks/recommended",
+      // "plugin:import/recommended"
+      "prettier"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "ecmaFeatures": {
+        "jsx": true
+      },
+      "ecmaVersion": 12,
+      "sourceType": "module"
+    },
+    "plugins": ["react", "@typescript-eslint"],
+  
+    "rules": {
+      "no-shadow": "off",
+      "@typescript-eslint/no-shadow": ["error"],
+      "no-console": "warn",
+      "no-plusplus": "warn",
+      "prefer-destructuring": "warn",
+      "max-len": ["warn", { "code": 140 }],
+      "func-names": "off",
+      "import/no-named-as-default-member": "off",
+      "import/no-named-as-default": "off",
+      "no-new": "off",
+      "class-methods-use-this": "off",
+      "linebreak-style": ["error", "windows"],
+      "no-use-before-define": "off",
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-use-before-define": ["error"],
+      "import/prefer-default-export": "off",
+      "react/react-in-jsx-scope": "off",
+      "jsx-a11y/label-has-associated-control": [ "error", {
+        "required": {
+          "some": [ "nesting", "id"  ]
+        }
+      }],
+      "jsx-a11y/label-has-for": [ "error", {
+        "required": {
+          "some": [ "nesting", "id"  ]
+        }
+      }],
+      "react/jsx-filename-extension": [
+        1,
+        { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
+      ],
+  
+      "import/extensions": [
+        "error",
+        "always",
+        {
+            "js": "never",
+            "jsx": "never",
+            "ts": "never",
+            "tsx": "never"
+        }
+    ]
+    },
+  
+    "settings": {
+      "import/resolver": {
+        "node": {
+          "extensions": [".js", ".jsx", ".ts", ".tsx"],
+          "moduleDirectory": ["node_modules", "src/"]
+      }
+      }
+  }
+  }
